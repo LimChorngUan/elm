@@ -1,8 +1,8 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, div, input, p, text, button)
-import Html.Attributes exposing (..)
+import Html exposing (Html, div, input, p, text)
+import Html.Attributes exposing (placeholder, value)
 import Html.Events exposing (onInput)
 
 -- MAIN
@@ -16,11 +16,11 @@ main =
 
 
 -- MODEL
-type alias Model = { content : String }
+type alias Model = String
 
 initialModel : Model
 initialModel =
-  { content = "" }
+  ""
 
 
 -- UPDATE
@@ -31,7 +31,7 @@ update : Msg -> Model -> Model
 update msg model =
   case msg of
     ChangeContent newContent ->
-      { model | content = newContent }
+      model ++ newContent
 
 
 -- VIEW
@@ -40,10 +40,10 @@ view model =
   div []
     [ input
       [ placeholder "Text to reverse"
-      , value model.content
+      , value model
       , onInput ChangeContent
       ] []
-    , p [] [ text (String.reverse model.content) ]
+    , p [] [ text (String.reverse model) ]
     ]
 
 {--

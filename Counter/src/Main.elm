@@ -16,11 +16,10 @@ main =
 
 
 -- MODEL
-type alias Model = { count: Int }
-
+type alias Model = Int
 initialModel : Model
 initialModel =
-  { count = 0 }
+  0
 
 
 -- UPDATE
@@ -34,11 +33,11 @@ update : Msg -> Model -> Model
 update msg model =
   case msg of
     Increment ->
-      { count = model.count + 1 }
+      model + 1
     Decrement ->
-      { count = model.count - 1 }
+      model - 1
     Reset ->
-      { count = 0 }
+      model * 0
 
 
 -- VIEW
