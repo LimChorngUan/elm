@@ -1,4 +1,12 @@
-module RippleCarryAdder exposing (andGate, inverter, orGate)
+module RippleCarryAdder exposing
+    ( andGate
+    , fullAdder
+    , halfAdder
+    , inverter
+    , orGate
+    , rippleCarryAdder
+    , Binary
+    )
 
 import Bitwise
 
@@ -24,3 +32,75 @@ inverter a =
 
         _ ->
             -1
+
+type alias AdderResult =
+    { sum : Int
+    , carry : Int
+    }
+
+halfAdder : Int -> Int -> AdderResult
+halfAdder a b =
+    let
+        d =
+            orGate a b
+
+        e =
+            andGate a b
+                |> inverter
+
+        sumDigit =
+            andGate d e
+
+        carryOut =
+            andGate a b
+    in
+    { sum = sumDigit
+    , carry = carryOut
+    }
+
+
+fullAdder : Int -> Int -> Int -> AdderResult
+fullAdder a b carryIn =
+    let
+        firstResult =
+            halfAdder b carryIn
+
+        secondResult =
+            halfAdder a firstResult.sum
+
+        finalCarryOut =
+            orGate firstResult.carry secondResult.carry
+    in
+    { sum = secondResult.sum
+    , carry = finalCarryOut
+    }
+
+
+type alias Binary =
+    { d0 : Int
+    , d1 : Int
+    , d2 : Int
+    , d3 : Int
+    }
+
+rippleCarryAdder : Binary -> Binary -> Int -> { carry : Int, sum0 : Int, sum1 : Int, sum2 : Int, sum3 : Int }
+rippleCarryAdder a b carryIn =
+  let
+      firstResult =
+        fullAdder a.d3 b.d3 carryIn
+
+      secondResult =
+        fullAdder a.d2 b.d2 firstResult.carry
+
+      thirdResult =
+        fullAdder a.d1 b.d1 secondResult.carry
+
+      finalResult =
+        fullAdder a.d0 b.d0 thirdResult.carry
+  in
+    { carry = finalResult.carry
+    , sum0 = finalResult.sum
+    , sum1 = thirdResult.sum
+    , sum2 = secondResult.sum
+    , sum3 = firstResult.sum
+    }
