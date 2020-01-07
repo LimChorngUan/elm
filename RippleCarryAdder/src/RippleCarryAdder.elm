@@ -128,7 +128,11 @@ arrayToBinary array =
     }
 
 
-rippleCarryAdder : Int -> Int -> Int -> { carry : Int, sum0 : Int, sum1 : Int, sum2 : Int, sum3 : Int }
+numberFromDigits : List Int -> Int
+numberFromDigits digitsList =
+  List.foldl (\digit number -> number * 10 + digit) 0 digitsList
+
+rippleCarryAdder : Int -> Int -> Int -> Int
 rippleCarryAdder a b carryIn =
     let
         firstSignal =
@@ -148,10 +152,9 @@ rippleCarryAdder a b carryIn =
 
         finalResult =
             fullAdder firstSignal.d0 secondSignal.d0 thirdResult.carry
+
     in
-    { carry = finalResult.carry
-    , sum0 = finalResult.sum
-    , sum1 = thirdResult.sum
-    , sum2 = secondResult.sum
-    , sum3 = firstResult.sum
-    }
+        [ finalResult, thirdResult, secondResult, firstResult ]
+          |> List.map .sum
+          |> (::) finalResult.carry
+          |> numberFromDigits
