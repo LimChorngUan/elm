@@ -1,15 +1,15 @@
 module RippleCarryAdder exposing
-    ( andGate
+    ( Binary
+    , andGate
     , fullAdder
     , halfAdder
     , inverter
     , orGate
     , rippleCarryAdder
-    , Binary
     )
 
-import Bitwise
 import Array
+import Bitwise
 
 
 andGate : Int -> Int -> Int
@@ -34,10 +34,12 @@ inverter a =
         _ ->
             -1
 
+
 type alias AdderResult =
     { sum : Int
     , carry : Int
     }
+
 
 halfAdder : Int -> Int -> AdderResult
 halfAdder a b =
@@ -84,67 +86,69 @@ type alias Binary =
     , d3 : Int
     }
 
+
 extractDigits : Int -> Binary
 extractDigits number =
-  String.fromInt number
-    |> String.split ""
-    |> List.map stringToInt
-    |> Array.fromList
-    |> arrayToBinary
+    String.fromInt number
+        |> String.split ""
+        |> List.map stringToInt
+        |> Array.fromList
+        |> arrayToBinary
+
 
 stringToInt : String -> Int
 stringToInt string =
-  String.toInt string
-    |> Maybe.withDefault -1
+    String.toInt string
+        |> Maybe.withDefault -1
+
 
 arrayToBinary : Array.Array Int -> Binary
 arrayToBinary array =
-  let
-      firstElement =
-        Array.get 0 array
-          |> Maybe.withDefault -1
+    let
+        firstElement =
+            Array.get 0 array
+                |> Maybe.withDefault -1
 
-      secondElement =
-        Array.get 1 array
-          |> Maybe.withDefault -1
+        secondElement =
+            Array.get 1 array
+                |> Maybe.withDefault -1
 
-      thirdElement =
-        Array.get 2 array
-          |> Maybe.withDefault -1
+        thirdElement =
+            Array.get 2 array
+                |> Maybe.withDefault -1
 
-      fourthElement =
-        Array.get 3 array
-          |> Maybe.withDefault -1
-
-  in
-  { d0 = firstElement
-  , d1 = secondElement
-  , d2 = thirdElement
-  , d3 = fourthElement
-  }
+        fourthElement =
+            Array.get 3 array
+                |> Maybe.withDefault -1
+    in
+    { d0 = firstElement
+    , d1 = secondElement
+    , d2 = thirdElement
+    , d3 = fourthElement
+    }
 
 
 rippleCarryAdder : Int -> Int -> Int -> { carry : Int, sum0 : Int, sum1 : Int, sum2 : Int, sum3 : Int }
 rippleCarryAdder a b carryIn =
-  let
-      firstSignal =
-        extractDigits a
+    let
+        firstSignal =
+            extractDigits a
 
-      secondSignal =
-        extractDigits b
+        secondSignal =
+            extractDigits b
 
-      firstResult =
-        fullAdder firstSignal.d3 secondSignal.d3 carryIn
+        firstResult =
+            fullAdder firstSignal.d3 secondSignal.d3 carryIn
 
-      secondResult =
-        fullAdder firstSignal.d2 secondSignal.d2 firstResult.carry
+        secondResult =
+            fullAdder firstSignal.d2 secondSignal.d2 firstResult.carry
 
-      thirdResult =
-        fullAdder firstSignal.d1 secondSignal.d1 secondResult.carry
+        thirdResult =
+            fullAdder firstSignal.d1 secondSignal.d1 secondResult.carry
 
-      finalResult =
-        fullAdder firstSignal.d0 secondSignal.d0 thirdResult.carry
-  in
+        finalResult =
+            fullAdder firstSignal.d0 secondSignal.d0 thirdResult.carry
+    in
     { carry = finalResult.carry
     , sum0 = finalResult.sum
     , sum1 = thirdResult.sum
