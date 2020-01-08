@@ -87,19 +87,25 @@ type alias Binary =
     }
 
 
+digitToList : Int -> List Int
+digitToList number =
+  if number == 0 then
+    []
+  else
+    digitToList (number // 10) ++ [ remainderBy 10 number ]
+
+
 extractDigits : Int -> Binary
 extractDigits number =
-    String.fromInt number
-        |> String.split ""
-        |> List.map stringToInt
+    digitToList number
         |> Array.fromList
         |> arrayToBinary
 
 
-stringToInt : String -> Int
-stringToInt string =
-    String.toInt string
-        |> Maybe.withDefault -1
+-- stringToInt : String -> Int
+-- stringToInt string =
+--     String.toInt string
+--         |> Maybe.withDefault -1
 
 
 arrayToBinary : Array.Array Int -> Binary
