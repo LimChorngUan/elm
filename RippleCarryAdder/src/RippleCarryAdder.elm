@@ -6,6 +6,7 @@ module RippleCarryAdder exposing
     , inverter
     , orGate
     , rippleCarryAdder
+    , formatDigits
     )
 
 import Array
@@ -87,17 +88,23 @@ type alias Binary =
     }
 
 
-digitToList : Int -> List Int
-digitToList number =
-  if number == 0 then
-    []
-  else
-    digitToList (number // 10) ++ [ remainderBy 10 number ]
+formatDigits : Int -> List Int
+formatDigits number =
+  let
+      digitsToList n =
+        if n == 0 then
+            []
+          else
+             remainderBy 10 n  :: digitsToList ( n // 10 )
+  in
+    digitsToList number
+      |> List.reverse
+
 
 
 extractDigits : Int -> Binary
 extractDigits number =
-    digitToList number
+    formatDigits number
         |> Array.fromList
         |> arrayToBinary
 
