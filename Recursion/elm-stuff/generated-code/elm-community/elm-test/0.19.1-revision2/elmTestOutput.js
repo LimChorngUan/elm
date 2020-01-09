@@ -6358,7 +6358,7 @@ var $elm_explorations$test$Expect$equateWith = F4(
 	});
 var $elm_explorations$test$Expect$equal = A2($elm_explorations$test$Expect$equateWith, 'Expect.equal', $elm$core$Basics$eq);
 var $author$project$Factorial$factorial = function (n) {
-	return (!n) ? 1 : ((n === 1) ? 1 : (n * $author$project$Factorial$factorial(n - 1)));
+	return ((!n) || (n === 1)) ? 1 : (n * $author$project$Factorial$factorial(n - 1));
 };
 var $elm_explorations$test$Test$Internal$blankDescriptionFailure = $elm_explorations$test$Test$Internal$failNow(
 	{
@@ -6430,7 +6430,7 @@ var $author$project$FactorialTest$suite = A2(
 					$author$project$Factorial$factorial(10));
 			})
 		]));
-var $author$project$Test$Generated$Main1040121870$main = A2(
+var $author$project$Test$Generated$Main2707847570$main = A2(
 	$author$project$Test$Runner$Node$run,
 	{
 		paths: _List_fromArray(
@@ -6438,7 +6438,7 @@ var $author$project$Test$Generated$Main1040121870$main = A2(
 		processes: 12,
 		report: $author$project$Test$Reporter$Reporter$ConsoleReport($author$project$Console$Text$UseColor),
 		runs: $elm$core$Maybe$Nothing,
-		seed: 52015286823090
+		seed: 21551627255860
 	},
 	$elm_explorations$test$Test$concat(
 		_List_fromArray(
@@ -6449,10 +6449,10 @@ var $author$project$Test$Generated$Main1040121870$main = A2(
 				_List_fromArray(
 					[$author$project$FactorialTest$suite]))
 			])));
-_Platform_export({'Test':{'Generated':{'Main1040121870':{'init':$author$project$Test$Generated$Main1040121870$main($elm$json$Json$Decode$int)(0)}}}});}(this));
+_Platform_export({'Test':{'Generated':{'Main2707847570':{'init':$author$project$Test$Generated$Main2707847570$main($elm$json$Json$Decode$int)(0)}}}});}(this));
 return this.Elm;
 })({});
-var pipeFilename = "/tmp/elm_test-76130.sock";
+var pipeFilename = "/tmp/elm_test-76462.sock";
 // Make sure necessary things are defined.
 if (typeof Elm === "undefined") {
   throw "test runner config error: Elm is not defined. Make sure you provide a file compiled by Elm!";
