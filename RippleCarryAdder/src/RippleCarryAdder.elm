@@ -1,13 +1,4 @@
-module RippleCarryAdder exposing
-    ( Binary
-    , andGate
-    , fullAdder
-    , halfAdder
-    , inverter
-    , orGate
-    , rippleCarryAdder
-    , formatDigits
-    )
+module RippleCarryAdder exposing (rippleCarryAdder)
 
 import Array
 import Bitwise
@@ -88,25 +79,36 @@ type alias Binary =
     }
 
 
-formatDigits : Int -> List Int
-formatDigits number =
-  let
-      digitsToList n =
-        if n == 0 then
-            []
-          else
-             remainderBy 10 n  :: digitsToList ( n // 10 )
-  in
-    digitsToList number
-      |> List.reverse
-
-
-
 extractDigits : Int -> Binary
 extractDigits number =
     formatDigits number
+        |> padZeros 4
         |> Array.fromList
         |> arrayToBinary
+
+
+formatDigits : Int -> List Int
+formatDigits number =
+    let
+        digitsToList n =
+            if n == 0 then
+                []
+
+            else
+                remainderBy 10 n :: digitsToList (n // 10)
+    in
+    digitsToList number
+        |> List.reverse
+
+
+padZeros : Int -> List Int -> List Int
+padZeros totalAmountOfZero list =
+    let
+        amountOfZeroPad =
+            totalAmountOfZero - List.length list
+    in
+    List.repeat amountOfZeroPad 0 ++ list
+
 
 
 -- stringToInt : String -> Int
@@ -143,7 +145,8 @@ arrayToBinary array =
 
 numberFromDigits : List Int -> Int
 numberFromDigits digitsList =
-  List.foldl (\digit number -> number * 10 + digit) 0 digitsList
+    List.foldl (\digit number -> number * 10 + digit) 0 digitsList
+
 
 rippleCarryAdder : Int -> Int -> Int -> Int
 rippleCarryAdder a b carryIn =
@@ -165,9 +168,8 @@ rippleCarryAdder a b carryIn =
 
         finalResult =
             fullAdder firstSignal.d0 secondSignal.d0 thirdResult.carry
-
     in
-        [ finalResult, thirdResult, secondResult, firstResult ]
-          |> List.map .sum
-          |> (::) finalResult.carry
-          |> numberFromDigits
+    [ finalResult, thirdResult, secondResult, firstResult ]
+        |> List.map .sum
+        |> (::) finalResult.carry
+        |> numberFromDigits
