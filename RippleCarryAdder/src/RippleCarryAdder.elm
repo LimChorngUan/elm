@@ -1,4 +1,7 @@
-module RippleCarryAdder exposing (rippleCarryAdder)
+module RippleCarryAdder exposing (
+  inverter
+  , halfAdder
+  , rippleCarryAdder )
 
 import Array
 import Bitwise
