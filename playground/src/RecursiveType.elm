@@ -6,7 +6,6 @@ type MyList a
     | Node a (MyList a)
 
 
-
 -- [16, 5, 31, 9]
 
 

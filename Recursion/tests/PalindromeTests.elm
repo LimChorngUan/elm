@@ -12,28 +12,32 @@ palindromeTests =
             [ test "empty string" <|
                 \_ ->
                     palindrome ""
-                        |> Expect.true
+                        |> Expect.true "empty string is palindrome"
             , test "single character" <|
                 \_ ->
                     palindrome "a"
-                        |> Expect.true
+                        |> Expect.true "single character is palindrome"
             , test "rotor" <|
                 \_ ->
                     palindrome "rotor"
-                        |> Expect.true
+                        |> Expect.true "rotor is palindrome"
             , test "xyzyzyx" <|
                 \_ ->
                     palindrome "xyzyzyx"
-                        |> Expect.true
+                        |> Expect.true "xyzyzyx is palindrome"
             , test "RotOr" <|
                 \_ ->
                     palindrome "RotOr"
-                        |> Expect.true
+                        |> Expect.true "RotOr is palindrome"
             ]
         , describe "is not palindrome"
             [ test "motor" <|
                 \_ ->
                     palindrome "motor"
-                        |> Expect.false
+                        |> Expect.false "motor is not palindrome"
+            , test "GmbH" <|
+                \_ ->
+                    palindrome "GmbH"
+                        |> Expect.false "GmbH is not palindrome"
             ]
         ]

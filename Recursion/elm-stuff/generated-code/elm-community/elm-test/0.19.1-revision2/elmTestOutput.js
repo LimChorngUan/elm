@@ -3407,6 +3407,129 @@ var $elm$core$Result$isOk = function (result) {
 	}
 };
 var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm_explorations$test$Test$Runner$Failure$Custom = {$: 'Custom'};
+var $elm_explorations$test$Expect$fail = function (str) {
+	return $elm_explorations$test$Test$Expectation$fail(
+		{description: str, reason: $elm_explorations$test$Test$Runner$Failure$Custom});
+};
+var $elm_explorations$test$Test$Expectation$Pass = {$: 'Pass'};
+var $elm_explorations$test$Expect$pass = $elm_explorations$test$Test$Expectation$Pass;
+var $elm_explorations$test$Expect$false = F2(
+	function (message, bool) {
+		return bool ? $elm_explorations$test$Expect$fail(message) : $elm_explorations$test$Expect$pass;
+	});
+var $elm$core$String$reverse = _String_reverse;
+var $elm$core$String$toLower = _String_toLower;
+var $author$project$Palindrome$palindrome = function (str) {
+	var lowerCaseStr = $elm$core$String$toLower(str);
+	var lowerCaseReversedStr = $elm$core$String$reverse(
+		$elm$core$String$toLower(str));
+	return _Utils_eq(lowerCaseStr, lowerCaseReversedStr);
+};
+var $elm_explorations$test$Test$Internal$blankDescriptionFailure = $elm_explorations$test$Test$Internal$failNow(
+	{
+		description: 'This test has a blank description. Let\'s give it a useful one!',
+		reason: $elm_explorations$test$Test$Runner$Failure$Invalid($elm_explorations$test$Test$Runner$Failure$BadDescription)
+	});
+var $elm_explorations$test$Test$test = F2(
+	function (untrimmedDesc, thunk) {
+		var desc = $elm$core$String$trim(untrimmedDesc);
+		return $elm$core$String$isEmpty(desc) ? $elm_explorations$test$Test$Internal$blankDescriptionFailure : A2(
+			$elm_explorations$test$Test$Internal$Labeled,
+			desc,
+			$elm_explorations$test$Test$Internal$UnitTest(
+				function (_v0) {
+					return _List_fromArray(
+						[
+							thunk(_Utils_Tuple0)
+						]);
+				}));
+	});
+var $elm_explorations$test$Expect$true = F2(
+	function (message, bool) {
+		return bool ? $elm_explorations$test$Expect$pass : $elm_explorations$test$Expect$fail(message);
+	});
+var $author$project$PalindromeTests$palindromeTests = A2(
+	$elm_explorations$test$Test$describe,
+	'palindrome',
+	_List_fromArray(
+		[
+			A2(
+			$elm_explorations$test$Test$describe,
+			'is palindrome',
+			_List_fromArray(
+				[
+					A2(
+					$elm_explorations$test$Test$test,
+					'empty string',
+					function (_v0) {
+						return A2(
+							$elm_explorations$test$Expect$true,
+							'empty string is palindrome',
+							$author$project$Palindrome$palindrome(''));
+					}),
+					A2(
+					$elm_explorations$test$Test$test,
+					'single character',
+					function (_v1) {
+						return A2(
+							$elm_explorations$test$Expect$true,
+							'single character is palindrome',
+							$author$project$Palindrome$palindrome('a'));
+					}),
+					A2(
+					$elm_explorations$test$Test$test,
+					'rotor',
+					function (_v2) {
+						return A2(
+							$elm_explorations$test$Expect$true,
+							'rotor is palindrome',
+							$author$project$Palindrome$palindrome('rotor'));
+					}),
+					A2(
+					$elm_explorations$test$Test$test,
+					'xyzyzyx',
+					function (_v3) {
+						return A2(
+							$elm_explorations$test$Expect$true,
+							'xyzyzyx is palindrome',
+							$author$project$Palindrome$palindrome('xyzyzyx'));
+					}),
+					A2(
+					$elm_explorations$test$Test$test,
+					'RotOr',
+					function (_v4) {
+						return A2(
+							$elm_explorations$test$Expect$true,
+							'RotOr is palindrome',
+							$author$project$Palindrome$palindrome('RotOr'));
+					})
+				])),
+			A2(
+			$elm_explorations$test$Test$describe,
+			'is not palindrome',
+			_List_fromArray(
+				[
+					A2(
+					$elm_explorations$test$Test$test,
+					'motor',
+					function (_v5) {
+						return A2(
+							$elm_explorations$test$Expect$false,
+							'motor is not palindrome',
+							$author$project$Palindrome$palindrome('motor'));
+					}),
+					A2(
+					$elm_explorations$test$Test$test,
+					'GmbH',
+					function (_v6) {
+						return A2(
+							$elm_explorations$test$Expect$false,
+							'GmbH is not palindrome',
+							$author$project$Palindrome$palindrome('GmbH'));
+					})
+				]))
+		]));
 var $author$project$Test$Runner$Node$Receive = function (a) {
 	return {$: 'Receive', a: a};
 };
@@ -3704,11 +3827,6 @@ var $elm_explorations$test$Test$Runner$distributeSeedsHelp = F4(
 		}
 	});
 var $elm_explorations$test$Test$Runner$distributeSeeds = $elm_explorations$test$Test$Runner$distributeSeedsHelp(false);
-var $elm_explorations$test$Test$Runner$Failure$Custom = {$: 'Custom'};
-var $elm_explorations$test$Expect$fail = function (str) {
-	return $elm_explorations$test$Test$Expectation$fail(
-		{description: str, reason: $elm_explorations$test$Test$Runner$Failure$Custom});
-};
 var $elm_explorations$test$Test$Runner$runThunk = _Test_runThunk;
 var $elm_explorations$test$Test$Runner$run = function (_v0) {
 	var fn = _v0.a;
@@ -6321,8 +6439,6 @@ var $elm_explorations$test$Test$Runner$Failure$Equality = F2(
 		return {$: 'Equality', a: a, b: b};
 	});
 var $elm$core$String$contains = _String_contains;
-var $elm_explorations$test$Test$Expectation$Pass = {$: 'Pass'};
-var $elm_explorations$test$Expect$pass = $elm_explorations$test$Test$Expectation$Pass;
 var $elm_explorations$test$Test$Internal$toString = _Debug_toString;
 var $elm_explorations$test$Expect$testWith = F5(
 	function (makeReason, label, runTest, expected, actual) {
@@ -6360,25 +6476,6 @@ var $elm_explorations$test$Expect$equal = A2($elm_explorations$test$Expect$equat
 var $author$project$Factorial$factorial = function (n) {
 	return ((!n) || (n === 1)) ? 1 : (n * $author$project$Factorial$factorial(n - 1));
 };
-var $elm_explorations$test$Test$Internal$blankDescriptionFailure = $elm_explorations$test$Test$Internal$failNow(
-	{
-		description: 'This test has a blank description. Let\'s give it a useful one!',
-		reason: $elm_explorations$test$Test$Runner$Failure$Invalid($elm_explorations$test$Test$Runner$Failure$BadDescription)
-	});
-var $elm_explorations$test$Test$test = F2(
-	function (untrimmedDesc, thunk) {
-		var desc = $elm$core$String$trim(untrimmedDesc);
-		return $elm$core$String$isEmpty(desc) ? $elm_explorations$test$Test$Internal$blankDescriptionFailure : A2(
-			$elm_explorations$test$Test$Internal$Labeled,
-			desc,
-			$elm_explorations$test$Test$Internal$UnitTest(
-				function (_v0) {
-					return _List_fromArray(
-						[
-							thunk(_Utils_Tuple0)
-						]);
-				}));
-	});
 var $author$project$FactorialTest$suite = A2(
 	$elm_explorations$test$Test$describe,
 	'factorial function',
@@ -6430,29 +6527,34 @@ var $author$project$FactorialTest$suite = A2(
 					$author$project$Factorial$factorial(10));
 			})
 		]));
-var $author$project$Test$Generated$Main2707847570$main = A2(
+var $author$project$Test$Generated$Main1729126433$main = A2(
 	$author$project$Test$Runner$Node$run,
 	{
 		paths: _List_fromArray(
-			['/Users/lcu/Amelia/elm/Recursion/tests/FactorialTest.elm']),
+			['/Users/lcu/Amelia/elm/Recursion/tests/FactorialTest.elm', '/Users/lcu/Amelia/elm/Recursion/tests/PalindromeTests.elm']),
 		processes: 12,
 		report: $author$project$Test$Reporter$Reporter$ConsoleReport($author$project$Console$Text$UseColor),
 		runs: $elm$core$Maybe$Nothing,
-		seed: 21551627255860
+		seed: 130329212813814
 	},
 	$elm_explorations$test$Test$concat(
 		_List_fromArray(
 			[
 				A2(
 				$elm_explorations$test$Test$describe,
+				'PalindromeTests',
+				_List_fromArray(
+					[$author$project$PalindromeTests$palindromeTests])),
+				A2(
+				$elm_explorations$test$Test$describe,
 				'FactorialTest',
 				_List_fromArray(
 					[$author$project$FactorialTest$suite]))
 			])));
-_Platform_export({'Test':{'Generated':{'Main2707847570':{'init':$author$project$Test$Generated$Main2707847570$main($elm$json$Json$Decode$int)(0)}}}});}(this));
+_Platform_export({'Test':{'Generated':{'Main1729126433':{'init':$author$project$Test$Generated$Main1729126433$main($elm$json$Json$Decode$int)(0)}}}});}(this));
 return this.Elm;
 })({});
-var pipeFilename = "/tmp/elm_test-76462.sock";
+var pipeFilename = "/tmp/elm_test-96488.sock";
 // Make sure necessary things are defined.
 if (typeof Elm === "undefined") {
   throw "test runner config error: Elm is not defined. Make sure you provide a file compiled by Elm!";
