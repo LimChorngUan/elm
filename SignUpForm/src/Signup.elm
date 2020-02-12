@@ -1,12 +1,27 @@
 module Signup exposing (main)
 
-import Html exposing (Html, div, h1, form, label, input, text, button)
-import Html.Attributes exposing (for, type_, id, name)
+import Browser
+import Html exposing (Html, button, div, form, h1, input, label, text)
+import Html.Attributes exposing (for, id, name, type_, value)
+import Html.Events exposing (onClick, onInput)
 
 
-main : Html msg
+
+-- Main
+
+
+main : Program () User Msg
 main =
-  view initialModel
+    Browser.sandbox
+        { init = initialModel
+        , view = view
+        , update = update
+        }
+
+
+
+-- Model
+
 
 type alias User =
     { name : String
@@ -15,36 +30,89 @@ type alias User =
     , loggedIn : Bool
     }
 
+
 initialModel : User
 initialModel =
-  { name = ""
-  , email = ""
-  , password = ""
-  , loggedIn = False
-  }
+    { name = ""
+    , email = ""
+    , password = ""
+    , loggedIn = False
+    }
 
 
-view : User -> Html msg
+
+-- Update
+
+
+type Msg
+    = SaveName String
+    | SaveEmail String
+    | SavePassword String
+    | Signup
+
+
+update : Msg -> User -> User
+update message user =
+    case message of
+        SaveName name ->
+            { user | name = name }
+
+        SaveEmail email ->
+            { user | email = email }
+
+        SavePassword password ->
+            { user | password = password }
+
+        Signup ->
+            { user | loggedIn = True }
+
+
+
+-- View
+
+
+view : User -> Html Msg
 view user =
-  div []
-    [ h1 [] [text "Sign up"]
-    , form []
-      [ formFieldView "text" "name" "Name"
-      , formFieldView "email" "email" "Email"
-      , formFieldView "password" "password" "Password"
-      , div []
-        [ button [type_ "submit"] [text "Create my account"]
+    div []
+        [ h1 [] [ text "Sign up" ]
+        , form []
+            [ div []
+                [ label [ for "name" ] [ text "Name" ]
+                , input
+                    [ type_ "text"
+                    , name "name"
+                    , id "name"
+                    , value user.name
+                    , onInput SaveName
+                    ]
+                    []
+                ]
+            , div []
+                [ label [ for "email" ] [ text "Email" ]
+                , input
+                    [ type_ "text"
+                    , name "email"
+                    , id "email"
+                    , onInput SaveEmail
+                    ]
+                    []
+                ]
+            , div []
+                [ label [ for "password" ] [ text "Password" ]
+                , input
+                    [ type_ "password"
+                    , name "password"
+                    , id "password"
+                    , onInput SavePassword
+                    ]
+                    []
+                ]
+            , div []
+                [ button [ type_ "submit", onClick Signup ] [ text "Create my account" ]
+                ]
+            ]
         ]
-      ]
-    ]
 
-
-formFieldView : String -> String -> String -> Html msg
-formFieldView typeName nameText labelText =
-  div []
-    [ label [for nameText] [text labelText]
-    , input [type_ typeName, name nameText, id nameText ] []
-    ]
 
 
 {--
