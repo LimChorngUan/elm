@@ -1,34 +1,40 @@
-module OldSchool exposing ( main )
-
+module OldSchool exposing (main)
 
 import Browser
-import Html exposing ( Html, div, button, text, h1, ul, li )
-import Html.Events exposing ( onClick )
-
+import Html exposing (Html, button, div, h1, li, text, ul)
+import Html.Events exposing (onClick)
 import Http
 import Json.Decode
 
 
+
 -- MAIN
+
+
 main : Program () Model Msg
 main =
     Browser.element
-      { init = init
-      , view = view
-      , update = update
-      , subscriptions = \_ -> Sub.none
-      }
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = \_ -> Sub.none
+        }
+
 
 
 -- MODEL
+
+
 type alias Model =
-    { names: List String
-    , errorMessage: Maybe String
+    { names : List String
+    , errorMessage : Maybe String
     }
 
 
 
 -- INIT
+
+
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { names = []
@@ -40,10 +46,11 @@ init _ =
 
 
 -- UPDATE
-type Msg
-  = SendHttpRequest
-  | DataReceived ( Result Http.Error ( List String ) )
 
+
+type Msg
+    = SendHttpRequest
+    | DataReceived (Result Http.Error (List String))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -52,15 +59,17 @@ update msg model =
         SendHttpRequest ->
             ( model, getNames )
 
-        DataReceived ( Ok nameList ) ->
+        DataReceived (Ok nameList) ->
             ( { model | names = nameList }, Cmd.none )
 
-        DataReceived ( Err httpError ) ->
-            ( { model | errorMessage = Just ( generateErrorMessage httpError ) }, Cmd.none )
+        DataReceived (Err httpError) ->
+            ( { model | errorMessage = Just (generateErrorMessage httpError) }, Cmd.none )
 
 
 
 -- VIEW
+
+
 view : Model -> Html Msg
 view model =
     div []
@@ -83,15 +92,15 @@ viewError : String -> Html Msg
 viewError errorMessage =
     div []
         [ h1 [] [ text "Cannot fetch names" ]
-        , text ( "Error: " ++ errorMessage )
+        , text ("Error: " ++ errorMessage)
         ]
 
 
 viewNames : List String -> Html Msg
 viewNames names =
     div []
-        [ h1 [] [ text "Old school character names"]
-        , ul [] ( List.map viewName names )
+        [ h1 [] [ text "Old school character names" ]
+        , ul [] (List.map viewName names)
         ]
 
 
@@ -102,6 +111,8 @@ viewName name =
 
 
 -- CONST
+
+
 url : String
 url =
     "http://localhost:5019/nicknames"
@@ -109,6 +120,8 @@ url =
 
 
 -- FUNCS
+
+
 getNames : Cmd Msg
 getNames =
     Http.get
@@ -117,10 +130,9 @@ getNames =
         }
 
 
-nicknamesDecoder : Json.Decode.Decoder ( List String )
+nicknamesDecoder : Json.Decode.Decoder (List String)
 nicknamesDecoder =
     Json.Decode.list Json.Decode.string
-
 
 
 generateErrorMessage : Http.Error -> String

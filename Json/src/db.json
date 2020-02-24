@@ -1,0 +1,24 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Javascript",
+      "author": "Egu"
+    },
+    {
+      "id": 2,
+      "title": "Elm",
+      "author": "Amelia"
+    },
+    {
+      "id": 3,
+      "title": "Haskell",
+      "author": "Florian"
+    },
+    {
+      "id": 4,
+      "title": "Purescript",
+      "author": "Min"
+    }
+  ]
+}
