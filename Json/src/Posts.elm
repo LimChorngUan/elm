@@ -4,8 +4,8 @@ import Browser
 import Html exposing (Html, button, div, h1, table, td, text, th, tr)
 import Html.Events exposing (onClick)
 import Http
-import Json.Decode exposing (Decoder, field, int, list, map3, string)
-
+import Json.Decode as Decode exposing (Decoder, int, list, string)
+import Json.Decode.Pipeline exposing (required, optional)
 
 
 -- MAIN
@@ -97,11 +97,16 @@ getPosts =
 
 
 postDecoder : Decoder Post
+-- postDecoder =
+--     map3 Post
+--         (field "id" int)
+--         (field "title" string)
+--         (field "author" string)
 postDecoder =
-    map3 Post
-        (field "id" int)
-        (field "title" string)
-        (field "author" string)
+    Decode.succeed Post
+        |> required "id" int
+        |> required "title" string
+        |> optional "author" string "anonymous"
 
 
 generateErrorMessage : Http.Error -> String

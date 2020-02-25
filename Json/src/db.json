@@ -2,23 +2,36 @@
   "posts": [
     {
       "id": 1,
-      "title": "Javascript",
-      "author": "Egu"
+      "title": "Javascript"
     },
     {
       "id": 2,
       "title": "Elm",
-      "author": "Amelia"
+      "author": {
+        "name": "Amelia",
+        "url": "https://github.com/LimChorngUan"
+      }
     },
     {
       "id": 3,
       "title": "Haskell",
-      "author": "Florian"
+      "author": {
+        "name": "Florian",
+        "url": "https://github.com/LimChorngUan"
+      }
     },
     {
       "id": 4,
       "title": "Purescript",
-      "author": "Min"
+      "author": {
+        "name": "Min",
+        "url": "https://github.com/LimChorngUan"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Php",
+      "author": null
     }
   ]
 }
