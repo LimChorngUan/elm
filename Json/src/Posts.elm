@@ -1,7 +1,8 @@
 module Posts exposing (main)
 
 import Browser
-import Html exposing (Html, button, div, h1, table, td, text, th, tr)
+import Html exposing (Html, button, div, h1, table, td, text, th, tr, a)
+import Html.Attributes exposing (href)
 import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode exposing (Decoder, int, list, string)
@@ -43,7 +44,13 @@ type alias Model =
 type alias Post =
     { id : Int
     , title : String
-    , author : String
+    , author : Author
+    }
+
+
+type alias Author =
+    { name : String
+    , url : String
     }
 
 
@@ -102,11 +109,25 @@ postDecoder : Decoder Post
 --         (field "id" int)
 --         (field "title" string)
 --         (field "author" string)
+
+-- postDecoder =
+--     Decode.succeed Post
+--         |> required "id" int
+--         |> required "title" string
+--         |> optional "author" string "anonymous"
+
 postDecoder =
     Decode.succeed Post
         |> required "id" int
         |> required "title" string
-        |> optional "author" string "anonymous"
+        |> required "author" authorDecoder
+
+
+authorDecoder : Decoder Author
+authorDecoder =
+    Decode.succeed Author
+        |> optional "name" string "anonymous"
+        |> optional "url" string "#"
 
 
 generateErrorMessage : Http.Error -> String
@@ -181,5 +202,7 @@ viewPost post =
     tr []
         [ td [] [ text (String.fromInt post.id) ]
         , td [] [ text post.title ]
-        , td [] [ text post.author ]
+        , td []
+            [ a [ href post.author.url ] [ text post.author.name ]
+            ]
         ]
